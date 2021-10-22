@@ -22,4 +22,8 @@ Feature: target
     Scenario: Login
         Given I am in Tagret Home page
         When I click login
+
+    Scenario: Create account
+        Given I am in Tagret Home page
+        When I click create account
         
