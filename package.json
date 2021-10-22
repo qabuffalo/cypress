@@ -1,0 +1,37 @@
+{
+  "name": "WBD",
+  "version": "1.0.0",
+  "description": "MLB Web Based Devices UI Automation",
+  "scripts": {
+    "cy:open": "cypress open",
+    "pretest": "node ./cypress/reporting/delete-results.js",
+    "report": "node ./cypress/reporting/report.js",
+    "test:debug": "cypress run --headed --browser chrome -- -tags --spec 'cypress/integration/features/authenticated/topnav.feature'",
+    "test": "cypress run --browser chrome",
+    "test:ci": "./node_modules/.bin/cypress-tags run -e TAGS='@smoke' --browser chrome"
+  },
+  "dependencies": {
+    "cypress": "^6.9.1",
+    "cypress-cucumber-preprocessor": "4.0.0",
+    "cypress-wait-until": "^1.7.1",
+    "fs-extra": "^9.0.1",
+    "glob": "^7.1.6",
+    "moment": "^2.29.1",
+    "multiple-cucumber-html-reporter": "1.18.0"
+  },
+  "devDependencies": {
+    "cucumber-html-reporter": "^5.4.0",
+    "cypress-arrows": "^1.1.0",
+    "cypress-xpath": "^1.6.2",
+    "eslint": "7.12.1",
+    "eslint-plugin-cypress": "2.11.2"
+  },
+  "cypress-cucumber-preprocessor": {
+    "cucumberJson": {
+      "generate": true,
+      "outputFolder": "cypress/cucumber-test-results/cucumber-json",
+      "filePrefix": "",
+      "fileSuffix": ".cucumber"
+    }
+  }
+}

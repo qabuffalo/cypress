@@ -1,0 +1,10 @@
+{
+  "baseUrl": "https://www.target.com",
+  "video": true,
+  "testFiles": "**/*.feature",
+  "reporter": "junit",
+  "reporterOptions": {
+    "mochaFile": "test-results/test-output-[hash].xml"
+  },
+  "chromeWebSecurity": false
+}
