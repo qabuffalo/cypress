@@ -18,3 +18,8 @@ Feature: target
         Given I am in Tagret Home page
         When I click categories tab
         Then I click on Main Menu option
+
+    Scenario: Login
+        Given I am in Tagret Home page
+        When I click login
+        
