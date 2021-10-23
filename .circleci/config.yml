@@ -23,16 +23,6 @@ jobs:
           - v2-deps-{{ .Branch }}-
           - v2-deps-
       - run: npm install
-      - save_cache:
-          key: v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
-          paths:
-            - ~/.npm
-            - ~/.cache
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - .cache
-            - app
 
   testA:
     <<: *defaults
