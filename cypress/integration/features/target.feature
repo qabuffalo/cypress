@@ -19,11 +19,4 @@ Feature: target
         When I click categories tab
         Then I click on Main Menu option
 
-    Scenario: Login
-        Given I am in Tagret Home page
-        When I click login
-
-    Scenario: Create account
-        Given I am in Tagret Home page
-        When I click create account
         
