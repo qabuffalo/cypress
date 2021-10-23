@@ -8,7 +8,8 @@
     "report": "node ./cypress/reporting/report.js",
     "test:debug": "cypress run --headed --browser chrome -- -tags --spec 'cypress/integration/features/authenticated/topnav.feature'",
     "test": "cypress run --browser chrome",
-    "test:ci": "./node_modules/.bin/cypress-tags run -e TAGS='@smoke' --browser chrome"
+    "test:ci": "./node_modules/.bin/cypress-tags run -e TAGS='@smoke' --browser chrome",
+    "moga": "./node_modules/.bin/cypress-tags run -e TAGS='@mogasmoke' --browser chrome"
   },
   "dependencies": {
     "cypress": "^6.9.1",

@@ -2,8 +2,6 @@
 
 import { Given } from "cypress-cucumber-preprocessor/steps"
 
-
-
 Given('I visit target home page', () => {
     cy.visit('/')
     cy.wait(4000)
@@ -17,8 +15,6 @@ When('I click search button', () => {
     cy.get('#search').type('{uparrow}')
 })
     
-
-
 And('I type {string}', (Product) => {
     cy.get('#search').click().type(Product)
 
