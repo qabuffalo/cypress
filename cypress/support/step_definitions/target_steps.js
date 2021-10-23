@@ -1,10 +1,5 @@
 /// <reference types= "cypress" /> 
 import { Given } from "cypress-cucumber-preprocessor/steps"
-<<<<<<< Updated upstream
-=======
-import { target } from "/Users/asadzaman/Documents/GitHub/cypress/cypress/integration/pages/target.js"
-
->>>>>>> Stashed changes
 
 Given('I visit target home page', () => {
     cy.visit('/')
