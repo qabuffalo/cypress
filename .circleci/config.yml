@@ -9,7 +9,7 @@ workflows:
       # then the workspace will be passed to other jobs
       - cypress/install:
           name: Install
-          build: npm run transpile
+          build: npm run test
 
       # the test job automatically attaches the workspace
       # created by the install job, so it is ready to test
