@@ -1,70 +1,15 @@
-version: 2
-
-# build job parameters as a template
-defaults: &defaults
-  working_directory: ~/app
-  docker:
-    # the Docker image with Cypress dependencies
-    - image: cypress/base:8
-      environment:
-        ## this enables colors in the output
-        TERM: xterm
-
-jobs:
-  build:
-    <<: *defaults
-    steps:
-      - checkout
-      - run: pwd
-      - run: ls
-      - restore_cache:
-          keys:
-          - v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
-          - v2-deps-{{ .Branch }}-
-          - v2-deps-
-      - run: npm install
-
-  testA:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run: ls -la cypress
-      - run: ls -la cypress/integration
-      - run:
-          name: Running E2E tests A
-          command: $(npm bin)/cypress run moga
-      - store_test_results:
-          path: results
-      - store_artifacts:
-          path: cypress/videos
-      - store_artifacts:
-          path: cypress/screenshots
-
-
-  testB:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: Running E2E tests B
-          command: $(npm bin)/cypress run test
-      - store_test_results:
-          path: results
-      - store_artifacts:
-          path: cypress/videos
-      - store_artifacts:
-          path: cypress/screenshots
-
+version: 2.1
+orbs:
+  cypress: cypress-io/cypress@1
 workflows:
-  version: 2
-  build_and_test:
+  build:
     jobs:
-      - build
-      - testA:
+      - cypress/install:
+          build: npm run build
+      - cypress/run:
           requires:
-            - build
-      - testB:
-          requires:
-            - build
+            - cypress/install
+          record: true
+          parallel: true
+          parallelism: 3
+          group: 3x
