@@ -1,36 +1,80 @@
-version: 2.1
-orbs:
-  circleci-cli: circleci/circleci-cli@0.1.9
+version: 2
+
+# build job parameters as a template
+defaults: &defaults
+  working_directory: ~/app
+  docker:
+    # the Docker image with Cypress dependencies
+    - image: cypress/base:8
+      environment:
+        ## this enables colors in the output
+        TERM: xterm
+
 jobs:
   build:
-    docker:
-      - image: circleci/node:10
-
-    working_directory: ~/repo
-
+    <<: *defaults
     steps:
       - checkout
-
-      # Download and cache dependencies
+      - run: pwd
+      - run: ls
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run: npm install
-
+          - v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          - v2-deps-{{ .Branch }}-
+          - v2-deps-
+      - run: npm ci
       - save_cache:
+          key: v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+            - ~/.npm
+            - ~/.cache
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - .cache
+            - app
 
-      # we need to install CircleCI CLI tool
-      # to run the "manual" tests
-      - circleci-cli/install
-      - run: npm run moga
-    
+  testA:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: ls -la cypress
+      - run: ls -la cypress/integration
+      - run:
+          name: Running E2E tests A
+          command: $(npm bin)/cypress run moga
+      - store_test_results:
+          path: results
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+
+
+  testB:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Running E2E tests B
+          command: $(npm bin)/cypress run test
+      - store_test_results:
+          path: results
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+
 workflows:
-  orb_tests:
+  version: 2
+  build_and_test:
     jobs:
-    - build
+      - build
+      - testA:
+          requires:
+            - build
+      - testB:
+          requires:
+            - build
