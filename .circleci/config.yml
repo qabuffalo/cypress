@@ -1,24 +1,53 @@
-version: 2
-jobs:
-  build:
+version: 2.1
+orbs:
+  # use latest 1.x.y version of the orb
+  # best practice is to use an exact version
+  cypress: cypress-io/cypress@1.16.1
+  node: circleci/node@1.1
+
+executors:
+  chrome80-ff72:
     docker:
-      - image: cypress/base:8
-        environment:
-          ## this enables colors in the output
-          TERM: xterm
-    working_directory: ~/app
+      - image: 'cypress/browsers:node13.6.0-chrome80-ff72'
+
+# simplest use case - do everything in a single job
+# workflows:
+#   build:
+#     jobs:
+#       - cypress/run
+
+# run tests using Chrome browser
+# (requires custom executor with Cypress docker image that has Chrome installed)
+# workflows:
+#   build:
+#     jobs:
+#       - cypress/run:
+#           executor: cypress/browsers-chrome69
+#           browser: chrome
+
+# single job, but build the app and start server
+# workflows:
+#   build:
+#     jobs:
+#       - cypress/run:
+#           build: "npm run build"
+#           start: "npm run server"
+
+# run only specific spec file
+# workflows:
+#   build:
+#     jobs:
+#       - cypress/run:
+#           record: false
+#           spec: "cypress/integration/*-b.js"
+jobs:
+  unit:
+    executor:
+      name: node/default
+      tag: '12'
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
-            - v1-deps-{{ .Branch }}
-            - v1-deps
-      - run:
-          name: Install Dependencies
-          command: npm install
-      - save_cache:
-          key: v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - ~/.cache  ## cache both yarn and Cypress!
-      - run: $(yarn bin)/cypress run test
+      - node/with-cache:
+          steps:
+            - run: npm ci
+      - run: npm test
