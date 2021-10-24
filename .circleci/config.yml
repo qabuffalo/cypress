@@ -1,0 +1,12 @@
+version: 2.1
+orbs:
+  cypress: cypress-io/cypress@1
+workflows:
+  build:
+    jobs:
+      # install and cache dependencies in this job
+      # AND build the library once
+      # then the workspace will be passed to other jobs
+      - cypress/install:
+          name: Install
+          build: npm run test
