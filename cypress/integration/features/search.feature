@@ -1,4 +1,4 @@
-Feature: target
+Feature: Serarch
 
     Background: Visit target hoem page
         Given I visit target home page

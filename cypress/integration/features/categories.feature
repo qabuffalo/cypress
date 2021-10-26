@@ -1,4 +1,4 @@
-Feature: target
+Feature: Categories
 
     Background: Visit target hoem page
         Given I visit target home page
