@@ -15,3 +15,5 @@ Feature: target
             | Books   |
             | Shoes   |
             | Pants   |
+            | Shirts   |
+            | printer |
