@@ -56,3 +56,31 @@ And('I will enter password', () => {
 Then('I will click Enter', () => {
     cy.type('{enter}')
 })
+
+And('I click account icon in home page', () => {
+    cy.get('#account').click()
+})
+
+And('I click on create account Link in home page', () => {
+    cy.get('#accountNav-createAccount').click()
+})
+
+Then('I Enter {string} address in the Email text box', (email) => {
+    cy.get('#username').type(email)
+})
+
+Then('I Enter {string} in the First name text box', (fname) => {
+    cy.get('#firstname').type(fname)
+})
+
+Then('I Enter {string}  in the last name text box', (lname) => {
+    cy.get('#lastname').type(lname)
+})
+
+Then('I Enter {string} in the Mobile phone number text box', (phone) => {
+    cy.get('#phone').type(phone)
+})
+
+Then('I Enter {string} in the Create Password text box', (pass) => {
+    cy.get('#password').type(pass)
+})

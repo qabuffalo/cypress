@@ -3,3 +3,4 @@ videos
 test-results
 cucumber-test-results
 .DS_Store
+package-lock.json
