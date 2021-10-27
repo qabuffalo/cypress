@@ -2,9 +2,10 @@ export {target}
 
 const target = {
 
-    Login : '#account',
+    Account : '#account',
     Sign_In : '#accountNav-signIn',
     Username : '#username',
-    Password : '#password'
+    Password : '#password',
+    Log_in : '#login'
 
 }

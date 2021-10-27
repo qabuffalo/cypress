@@ -1,5 +1,6 @@
 /// <reference types= "cypress" /> 
-import { Given } from "cypress-cucumber-preprocessor/steps"
+import { Given, And, When, Then } from "cypress-cucumber-preprocessor/steps"
+import { target } from "/Users/asadzaman/Documents/GitHub/cypress/cypress/integration/pages/target.js"
 
 Given('I visit target home page', () => {
     cy.visit('/')
@@ -19,8 +20,9 @@ And('I type {string}', (Product) => {
 
 })
 
-Given('I am in Tagret Home page', () => {
+Given('I am in Target Home page', () => {
     cy.title().should('contain', 'Target : Expect More. Pay Less.')
+    cy.wait(4000)
 })
 
 
@@ -32,36 +34,43 @@ Then('I click on Main Menu option', () => {
     cy.contains('Main Menu').click()
 }) 
 
-When('I click login', () => {
-    cy.get(target.Login).click()
+When('I click the login icon', () => {
+    cy.get(target.Account).click()
 })
 
 And('I click on Sign-in button', () => {
-    cy.get(target,Sign_In).click()
+    cy.get(target.Sign_In).click()
 })
 
 
 
-Then('I will be taken to to Sign-in page', () => {
+Then('I will be taken to the Sign-in page', () => {
     cy.title().should('contain', 'Login: Target')
 })
 
-And('I will enter username', () => {
-    cy.get(target.Username).type("qabuffalo@gmail.com")
+Given('User is on Sign-in page', () => {
+    cy.title().should('contain', 'Login: Target')
+    cy.wait(2000)
+
 })
-And('I will enter password', () => {
-    cy.get(target.Password).type('qabuffalo')
+
+When('User enters {string}', (username) => {
+    cy.get(target.Username).type(username)
+})
+
+And('User enters {string}', (password) => {
+    cy.get(target.Password).type(password)
 })
 
 Then('I will click Enter', () => {
-    cy.type('{enter}')
+    cy.get(target.Log_in).type('{enter}')
 })
 
-And('I click account icon in home page', () => {
-    cy.get('#account').click()
+When('I click account icon in home page', () => {
+    cy.get('#accousnt').click()
 })
 
-And('I click on create account Link in home page', () => {
+When('I click on create account Link in home page', () => {
     cy.get('#accountNav-createAccount').click()
 })
 
